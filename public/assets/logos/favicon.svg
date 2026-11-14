@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Arquilínea">
+  <rect x="2" y="2" width="60" height="60" rx="12" fill="#111111"/>
+  <path d="M20 46 L32 17 L44 46 M24.5 37 H39.5" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
