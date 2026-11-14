@@ -1,4 +1,6 @@
+import Link from "next/link";
 import {
+  localizePath,
   t,
   type Locale,
   type TranslationKey,
@@ -42,6 +44,9 @@ function FooterLinks({ locale }: { locale: Locale }) {
           {t(locale, link.key)}
         </a>
       ))}
+      <Link href={localizePath(locale, "desafio")}>
+        {t(locale, "footer.link.desafio")}
+      </Link>
     </nav>
   );
 }

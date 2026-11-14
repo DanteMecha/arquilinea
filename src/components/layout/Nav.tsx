@@ -4,7 +4,7 @@ import { LangSwitch } from "./LangSwitch";
 
 type NavProps = {
   locale: Locale;
-  variant: "home" | "product";
+  variant: "home" | "product" | "challenge";
   buyUrl?: string;
 };
 
@@ -25,6 +25,18 @@ export function Nav({ locale, variant, buyUrl }: NavProps) {
               <a href="#versiones">{t(locale, "nav.ediciones")}</a>
               <a href="#jugar">{t(locale, "nav.jugar")}</a>
               <a href="#comprar">{t(locale, "nav.comprar")}</a>
+              <Link href={localizePath(locale, "desafio")}>
+                {t(locale, "nav.desafio")}
+              </Link>
+            </>
+          ) : variant === "challenge" ? (
+            <>
+              <Link href={homeHref}>{t(locale, "nav.inicio")}</Link>
+              {buyUrl ? (
+                <a href={buyUrl} target="_blank" rel="noopener">
+                  {t(locale, "nav.comprar")}
+                </a>
+              ) : null}
             </>
           ) : (
             <>

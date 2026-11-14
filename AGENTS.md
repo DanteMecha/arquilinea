@@ -18,6 +18,8 @@ Sitio de Arquilínea, juego de cartas de arquitectura. Next.js 16 (App Router), 
 - `src/i18n/dictionary.ts` — fuente de verdad de textos ES/EN, helpers `t()`, `localizePath()`, `alternateLocalePath()`.
 - `src/data/editions.ts` — ediciones, libro, precios, galerías, URLs de compra y relacionados.
 - `src/data/howto.ts` — variantes y contenido de “Cómo jugar”.
+- `src/data/digitalDeck.ts`, `src/data/discounts.ts` — cartas/mazos y códigos del desafío digital.
+- `src/components/ChallengeGame.tsx` — lógica del desafío; rutas `/desafio/` y `/en/desafio/`.
 - `src/lib/site.ts` — URL base del sitio.
 - `src/lib/metadata.ts` — metadata, canonical, hreflang, Open Graph y Twitter.
 - `src/components/` — layout (`Nav`, `LangSwitch`, `Footer`, `Adbar`), secciones, cards, galería, JSON-LD y plantillas (`HomePage`, `ProductView`).
@@ -42,6 +44,16 @@ Sitio de Arquilínea, juego de cartas de arquitectura. Next.js 16 (App Router), 
 - **Assets:** colocar en la subcarpeta correcta de `public/assets/` y referenciar con rutas absolutas (`/assets/...`). Evitar duplicados. Usar `<img>` (no `next/image`) porque el export es estático y las imágenes están sin optimizar. `_headers` cachea `/assets/*` por 1 día; al reemplazar una imagen, renombrarla o esperar la propagación.
 - **Compra:** en esta fase los botones enlazan a mil trazos. La compra nativa dentro del sitio es fase 2; no redirigir la compra a otro dominio cuando se implemente.
 - **Accesibilidad/estilo:** HTML semántico, `alt` en imágenes, respetar `prefers-reduced-motion`, mantener responsive existente.
+
+## Desafío digital
+- Rutas `/desafio/` y `/en/desafio/`; teaser en la home. Textos en `challenge.*`.
+- Flujo: elegir mazo → ordenar las cartas por año de finalización → acierto 10%. Si falla, el mazo queda jugado y se elige otro; al jugar todos, 5% de consuelo. Un solo código por sesión.
+- Persistencia: `localStorage` `arquilinea-desafio-session` (`playedDeckIds`, `finished`, `code`, `percent`, `kind`).
+- **Bloqueo:** los códigos actuales (`ARQ-10-TEST`, `ARQ-5-TEST`) son de prueba, visibles en el bundle y validados en el cliente. No hay canje real, unicidad ni control de uso hasta implementar tienda/backend. No publicarlos como descuento productivo.
+
+## Próximas fases (no implementar sin pedido)
+- Tienda nativa: México primero (MXN, IVA 16%, OXXO/SPEI/tarjetas/MSI), Argentina después (ARS). Fulfillment por socio local y precios fijos por país, sin conversión automática.
+- Pasarela sugerida: headless Shopify + Shopify Payments MX (requiere empresa mexicana). Custom checkout solo si el checkout fuera del dominio es innegociable. Definir antes facturación/CFDI, envíos, dominio y presupuesto.
 
 ## Tareas comunes
 - Cambiar textos: editar `src/i18n/dictionary.ts` o el data file correspondiente, siempre en ES y EN.

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { t, type Locale } from "@/i18n/dictionary";
 import { editionHref, type Edition } from "@/data/editions";
+import { digitalDecks } from "@/data/digitalDeck";
 
 export function homeMetadata(locale: Locale): Metadata {
   const path = locale === "es" ? "/" : "/en/";
@@ -30,6 +31,46 @@ export function homeMetadata(locale: Locale): Metadata {
           width: 1254,
           height: 1254,
           alt: t(locale, "hero.mediaAlt"),
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image],
+    },
+  };
+}
+
+export function challengeMetadata(locale: Locale): Metadata {
+  const path = locale === "es" ? "/desafio/" : "/en/desafio/";
+  const title = t(locale, "meta.challenge.title");
+  const description = t(locale, "meta.challenge.description");
+  const image = digitalDecks[0]?.cards[0]?.front ?? "/assets/mazos/mazos.jpeg";
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: path,
+      languages: {
+        es: "/desafio/",
+        en: "/en/desafio/",
+        "x-default": "/desafio/",
+      },
+    },
+    openGraph: {
+      type: "website",
+      url: path,
+      title,
+      description,
+      images: [
+        {
+          url: image,
+          width: 630,
+          height: 630,
+          alt: t(locale, "challenge.title"),
         },
       ],
     },

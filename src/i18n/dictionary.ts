@@ -8,6 +8,10 @@ const es = {
   "meta.home.title": "Arquilínea — El juego de la arquitectura en el tiempo",
   "meta.home.description":
     "Arquilínea es el juego de cartas que desafía la observación, el conocimiento, la estrategia y la memoria. Organizá cronológicamente las obras de la historia de la arquitectura.",
+  "meta.challenge.title":
+    "Desafío — Ordená la historia y ganá un descuento — Arquilínea",
+  "meta.challenge.description":
+    "Jugá el desafío digital de Arquilínea: elegí un mazo, ordená las cartas por año y ganá un 10% de descuento. Si jugás todos los mazos sin acertar, te llevás un 5%.",
 
   "adbar.1": "48 cartas ilustradas",
   "adbar.2": "4 ediciones combinables",
@@ -21,6 +25,8 @@ const es = {
   "nav.comprar": "Comprar",
   "nav.volver": "Volver a ediciones",
   "nav.links": "Enlaces",
+  "nav.desafio": "Desafío",
+  "nav.inicio": "Inicio",
   "lang.aria": "Cambiar idioma / Switch language",
   "logo.aria": "Arquilínea — inicio",
 
@@ -162,6 +168,63 @@ const es = {
   "product.view": "Ver producto",
   "product.buyShort": "Comprar",
 
+  "challenge.eyebrow": "Desafío digital",
+  "challenge.title": "Ordená la historia. Ganá un descuento.",
+  "challenge.sub":
+    "Elegí un mazo, ordená las cartas y comprobá el orden. Si acertás, te llevás un 10%; si no, probá otro mazo. Si jugás todos, te queda un 5% de consuelo.",
+  "challenge.chooseDeck": "Elegí un mazo para empezar",
+  "challenge.chooseDeckHint":
+    "Cada mazo se juega una sola vez. Si acertás el orden, ganás un 10%; si jugás todos y no acertás, te llevás un 5% de consuelo.",
+  "challenge.oneCode": "Un código por partida.",
+  "challenge.cards": "{count} cartas",
+  "challenge.played": "Jugado",
+  "challenge.deckLabel": "Mazos disponibles",
+  "challenge.boardLabel": "Cartas para ordenar",
+  "challenge.instructions":
+    "Ordená las cartas según el año de finalización de cada obra, de la más antigua a la más reciente.",
+  "challenge.dragHint":
+    "Arrastrá las cartas para ordenarlas; en mobile, usá el tirador de cada una.",
+  "challenge.keyboardHint":
+    "Con teclado, enfocá una carta y usá las flechas.",
+  "challenge.check": "Comprobar orden",
+  "challenge.shuffle": "Mezclar",
+  "challenge.shuffled": "Cartas mezcladas.",
+  "challenge.loading": "Mezclando cartas…",
+  "challenge.loadingSession": "Cargando desafío…",
+  "challenge.changeDeck": "Cambiar de mazo",
+  "challenge.lostTitle": "Este era el orden correcto",
+  "challenge.lostText":
+    "No acertaste esta vez. Elegí otro mazo para volver a intentar.",
+  "challenge.remaining": "Mazos restantes: {count}",
+  "challenge.chooseAnother": "Elegir otro mazo",
+  "challenge.orderTitle": "Orden correcto",
+  "challenge.winTitle": "¡Línea correcta!",
+  "challenge.winText":
+    "Te ganaste un {percent}% de descuento para usar en mil trazos.",
+  "challenge.consolationTitle": "Completaste todos los mazos",
+  "challenge.consolationText":
+    "No lograste el orden, pero te llevás un {percent}% de descuento por haber jugado todos los mazos.",
+  "challenge.yourCode": "Tu código",
+  "challenge.copy": "Copiar código",
+  "challenge.copied": "¡Copiado!",
+  "challenge.redeem": "Comprar en mil trazos",
+  "challenge.codeNote":
+    "Canjeá el código en mil trazos antes de finalizar la compra. Válido durante la campaña.",
+  "challenge.backHome": "Volver al inicio",
+  "challenge.off": "de descuento",
+  "challenge.yearLabel": "Año de finalización",
+  "challenge.position": "Posición",
+  "challenge.of": "de",
+  "challenge.correct": "Correcta",
+  "challenge.incorrect": "Incorrecta",
+  "challenge.cardRole": "tarjeta ordenable",
+  "challenge.resultAria": "Resultado del desafío",
+  "challenge.teaser.eyebrow": "Nuevo: desafío digital",
+  "challenge.teaser.title": "Probá el juego y ganá un descuento.",
+  "challenge.teaser.text":
+    "Elegí un mazo y ordená sus cartas en el tiempo. Si acertás, ganás un 10%; si jugás todos, un 5% de consuelo.",
+  "challenge.teaser.cta": "Jugar el desafío",
+
   "footer.stripAlt": "Arquilínea por el mundo",
   "footer.credits.title": "Hecho con mirada y detalle.",
   "footer.credits.subtitle":
@@ -183,6 +246,7 @@ const es = {
   "footer.link.instagram": "Instagram · @arqui_linea",
   "footer.link.miltrazos": "mil trazos",
   "footer.link.maquinas": "Máquinas de Mirar",
+  "footer.link.desafio": "Desafío digital",
 } as const satisfies Record<string, string>;
 
 export type TranslationKey = keyof typeof es;
@@ -191,6 +255,10 @@ const en = {
   "meta.home.title": "Arquilínea — The game of architecture through time",
   "meta.home.description":
     "Arquilínea is the card game that challenges observation, knowledge, strategy and memory. Order the works of architectural history chronologically.",
+  "meta.challenge.title":
+    "Challenge — Order history and win a discount — Arquilínea",
+  "meta.challenge.description":
+    "Play the Arquilínea digital challenge: choose a deck, order the cards by year, and win 10% off. Play every deck without a match and you still get 5%.",
 
   "adbar.1": "48 illustrated cards",
   "adbar.2": "4 combinable editions",
@@ -204,6 +272,8 @@ const en = {
   "nav.comprar": "Buy",
   "nav.volver": "Back to editions",
   "nav.links": "Links",
+  "nav.desafio": "Challenge",
+  "nav.inicio": "Home",
   "lang.aria": "Cambiar idioma / Switch language",
   "logo.aria": "Arquilínea — home",
 
@@ -346,6 +416,63 @@ const en = {
   "product.view": "View product",
   "product.buyShort": "Buy",
 
+  "challenge.eyebrow": "Digital challenge",
+  "challenge.title": "Order history. Win a discount.",
+  "challenge.sub":
+    "Choose a deck, order the cards, and check your timeline. Get it right for 10%; if not, try another deck. Play them all and you still get 5%.",
+  "challenge.chooseDeck": "Choose a deck to start",
+  "challenge.chooseDeckHint":
+    "Each deck can be played once. Get the order right for 10%; play every deck without a match and you still get 5%.",
+  "challenge.oneCode": "One code per game.",
+  "challenge.cards": "{count} cards",
+  "challenge.played": "Played",
+  "challenge.deckLabel": "Available decks",
+  "challenge.boardLabel": "Cards to order",
+  "challenge.instructions":
+    "Order the cards by each work's completion year, from oldest to newest.",
+  "challenge.dragHint":
+    "Drag the cards to reorder them; on mobile, use each card's handle.",
+  "challenge.keyboardHint":
+    "With a keyboard, focus a card and use the arrow keys.",
+  "challenge.check": "Check order",
+  "challenge.shuffle": "Shuffle",
+  "challenge.shuffled": "Cards shuffled.",
+  "challenge.loading": "Shuffling cards…",
+  "challenge.loadingSession": "Loading challenge…",
+  "challenge.changeDeck": "Change deck",
+  "challenge.lostTitle": "This was the correct order",
+  "challenge.lostText":
+    "Not this time. Choose another deck and try again.",
+  "challenge.remaining": "Decks left: {count}",
+  "challenge.chooseAnother": "Choose another deck",
+  "challenge.orderTitle": "Correct order",
+  "challenge.winTitle": "Correct timeline!",
+  "challenge.winText":
+    "You earned a {percent}% discount to use at mil trazos.",
+  "challenge.consolationTitle": "You played every deck",
+  "challenge.consolationText":
+    "No correct order this time, but you get a {percent}% discount for playing every deck.",
+  "challenge.yourCode": "Your code",
+  "challenge.copy": "Copy code",
+  "challenge.copied": "Copied!",
+  "challenge.redeem": "Buy at mil trazos",
+  "challenge.codeNote":
+    "Redeem the code at mil trazos before checkout. Valid during the campaign.",
+  "challenge.backHome": "Back to home",
+  "challenge.off": "off",
+  "challenge.yearLabel": "Completion year",
+  "challenge.position": "Position",
+  "challenge.of": "of",
+  "challenge.correct": "Correct",
+  "challenge.incorrect": "Incorrect",
+  "challenge.cardRole": "sortable card",
+  "challenge.resultAria": "Challenge result",
+  "challenge.teaser.eyebrow": "New: digital challenge",
+  "challenge.teaser.title": "Try the game and win a discount.",
+  "challenge.teaser.text":
+    "Choose a deck and order its cards through time. Get it right for 10%; play them all and you still get 5%.",
+  "challenge.teaser.cta": "Play the challenge",
+
   "footer.stripAlt": "Arquilínea around the world",
   "footer.credits.title": "Made with a keen eye and detail.",
   "footer.credits.subtitle":
@@ -367,6 +494,7 @@ const en = {
   "footer.link.instagram": "Instagram · @arqui_linea",
   "footer.link.miltrazos": "mil trazos",
   "footer.link.maquinas": "Máquinas de Mirar",
+  "footer.link.desafio": "Digital challenge",
 } satisfies Record<TranslationKey, string>;
 
 export const dictionary: Record<Locale, Record<TranslationKey, string>> = {

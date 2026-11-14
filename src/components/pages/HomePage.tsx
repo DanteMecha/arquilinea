@@ -7,6 +7,7 @@ import { StatsSection } from "@/components/sections/StatsSection";
 import { EditionsSection } from "@/components/sections/EditionsSection";
 import { HowToSection } from "@/components/sections/HowToSection";
 import { BoxSection } from "@/components/sections/BoxSection";
+import { ChallengeTeaser } from "@/components/sections/ChallengeTeaser";
 import { BuySection } from "@/components/sections/BuySection";
 
 export function HomePage({ locale }: { locale: Locale }) {
@@ -21,6 +22,7 @@ export function HomePage({ locale }: { locale: Locale }) {
         <EditionsSection locale={locale} />
         <HowToSection locale={locale} />
         <BoxSection locale={locale} />
+        <ChallengeTeaser locale={locale} />
         <BuySection locale={locale} />
       </main>
 

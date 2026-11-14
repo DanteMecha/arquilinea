@@ -12,6 +12,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/en/",
     "/libro-arquitectas/",
     "/en/libro-arquitectas/",
+    "/desafio/",
+    "/en/desafio/",
     ...editions.flatMap((edition) => [
       `/${edition.path}/`,
       `/en/${edition.path}/`,
