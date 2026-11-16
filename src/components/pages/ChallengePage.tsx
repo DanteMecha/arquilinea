@@ -4,10 +4,12 @@ import { Adbar } from "@/components/layout/Adbar";
 import { Nav } from "@/components/layout/Nav";
 import { SiteFooter } from "@/components/layout/Footer";
 import { ChallengeGame } from "@/components/ChallengeGame";
+import { ScrollToTop } from "@/components/ScrollToTop";
 
 export function ChallengePage({ locale }: { locale: Locale }) {
   return (
     <>
+      <ScrollToTop />
       <Adbar locale={locale} />
       <Nav locale={locale} variant="challenge" buyUrl={discountRedeemUrl} />
 

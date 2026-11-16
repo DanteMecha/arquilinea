@@ -15,6 +15,13 @@ export function Nav({ locale, variant, buyUrl }: NavProps) {
   const [open, setOpen] = useState(false);
   const homeHref = localizePath(locale, "/");
   const close = () => setOpen(false);
+  const handleLogoClick = () => {
+    close();
+
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    }
+  };
 
   return (
     <header className="nav">
@@ -23,7 +30,7 @@ export function Nav({ locale, variant, buyUrl }: NavProps) {
           className="logo"
           href={homeHref}
           aria-label={t(locale, "logo.aria")}
-          onClick={close}
+          onClick={handleLogoClick}
         >
           <img src="/assets/logos/LogoPNG.png" alt="Arquilínea" />
         </Link>

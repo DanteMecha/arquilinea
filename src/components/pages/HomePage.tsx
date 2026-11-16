@@ -9,10 +9,12 @@ import { HowToSection } from "@/components/sections/HowToSection";
 import { BoxSection } from "@/components/sections/BoxSection";
 import { ChallengeTeaser } from "@/components/sections/ChallengeTeaser";
 import { BuySection } from "@/components/sections/BuySection";
+import { ScrollToTop } from "@/components/ScrollToTop";
 
 export function HomePage({ locale }: { locale: Locale }) {
   return (
     <>
+      <ScrollToTop />
       <Adbar locale={locale} />
       <Nav locale={locale} variant="home" />
 

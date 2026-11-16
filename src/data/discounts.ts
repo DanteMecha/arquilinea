@@ -1,4 +1,4 @@
-export type DiscountTierId = "win" | "consolation";
+export type DiscountTierId = "win";
 
 export type DiscountTier = {
   id: DiscountTierId;
@@ -11,11 +11,6 @@ export const discountTiers: Record<DiscountTierId, DiscountTier> = {
     id: "win",
     percent: 10,
     codes: ["ARQ-10-TEST"],
-  },
-  consolation: {
-    id: "consolation",
-    percent: 5,
-    codes: ["ARQ-5-TEST"],
   },
 };
 

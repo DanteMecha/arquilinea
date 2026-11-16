@@ -24,7 +24,7 @@ import {
 
 const STORAGE_KEY = "arquilinea-desafio-session";
 
-type Stage = "loading" | "select" | "play" | "lost" | "finished";
+type Stage = "loading" | "select" | "play" | "lost" | "finished" | "allplayed";
 
 type StoredSession = {
   playedDeckIds: string[];
@@ -103,9 +103,7 @@ function readSession(): StoredSession {
         ? record.percent
         : null;
     const kind =
-      record.kind === "win" || record.kind === "consolation"
-        ? record.kind
-        : null;
+      record.kind === "win" ? record.kind : null;
 
     return {
       playedDeckIds: [...new Set(playedDeckIds)],
@@ -152,6 +150,7 @@ function GripIcon() {
 
 export function ChallengeGame({ locale }: { locale: Locale }) {
   const [stage, setStage] = useState<Stage>("loading");
+  const [isMobile, setIsMobile] = useState(false);
   const [selectedDeckIndex, setSelectedDeckIndex] = useState<number | null>(null);
   const [playedDeckIds, setPlayedDeckIds] = useState<string[]>([]);
   const [order, setOrder] = useState<string[]>([]);
@@ -211,17 +210,13 @@ export function ChallengeGame({ locale }: { locale: Locale }) {
       }
 
       if (session.playedDeckIds.length >= digitalDecks.length) {
-        const code = pickDiscountCode("consolation");
-        const percent = discountTiers.consolation.percent;
-
-        setFinalResult({ code, percent, kind: "consolation" });
-        setStage("finished");
+        setStage("allplayed");
         storeSession({
           playedDeckIds: session.playedDeckIds,
           finished: true,
-          code,
-          percent,
-          kind: "consolation",
+          code: null,
+          percent: null,
+          kind: null,
         });
         return;
       }
@@ -242,7 +237,7 @@ export function ChallengeGame({ locale }: { locale: Locale }) {
   }, [copiedCode]);
 
   useEffect(() => {
-    if (finalResult) {
+    if (finalResult || stage === "allplayed") {
       resultRef.current?.focus();
     } else if (stage === "lost") {
       lostRef.current?.focus();
@@ -262,7 +257,15 @@ export function ChallengeGame({ locale }: { locale: Locale }) {
   }, [stage]);
 
   useEffect(() => {
-    if (stage !== "play" && stage !== "lost") {
+    const mq = window.matchMedia("(max-width: 700px)");
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  useEffect(() => {
+    if (!isMobile || (stage !== "play" && stage !== "lost")) {
       return;
     }
 
@@ -271,7 +274,7 @@ export function ChallengeGame({ locale }: { locale: Locale }) {
     return () => {
       document.body.style.overflow = prev;
     };
-  }, [stage]);
+  }, [stage, isMobile]);
 
   function resetDragState() {
     setDragIndex(null);
@@ -521,23 +524,19 @@ export function ChallengeGame({ locale }: { locale: Locale }) {
     }
 
     if (nextPlayed.length >= digitalDecks.length) {
-      const code = pickDiscountCode("consolation");
-      const percent = discountTiers.consolation.percent;
-
-      setFinalResult({ code, percent, kind: "consolation" });
-      setStage("lost");
+      setStage("allplayed");
       storeSession({
         playedDeckIds: nextPlayed,
         finished: true,
-        code,
-        percent,
-        kind: "consolation",
+        code: null,
+        percent: null,
+        kind: null,
       });
       setAnnouncement(
-        `${t(locale, "challenge.consolationTitle")}. ${t(
+        `${t(locale, "challenge.allPlayedTitle")}. ${t(
           locale,
-          "challenge.consolationText",
-        ).replace("{percent}", String(percent))}`,
+          "challenge.allPlayedText",
+        )}`,
       );
       return;
     }
@@ -597,12 +596,10 @@ export function ChallengeGame({ locale }: { locale: Locale }) {
   }
 
   const finalText = finalResult
-    ? t(
-        locale,
-        finalResult.kind === "win"
-          ? "challenge.winText"
-          : "challenge.consolationText",
-      ).replace("{percent}", String(finalResult.percent))
+    ? t(locale, "challenge.winText").replace(
+        "{percent}",
+        String(finalResult.percent),
+      )
     : "";
 
   const finalPanel = finalResult ? (
@@ -613,12 +610,7 @@ export function ChallengeGame({ locale }: { locale: Locale }) {
       aria-label={t(locale, "challenge.resultAria")}
     >
       <h2>
-        {t(
-          locale,
-          finalResult.kind === "win"
-            ? "challenge.winTitle"
-            : "challenge.consolationTitle",
-        )}
+        {t(locale, "challenge.winTitle")}
       </h2>
       <p>{finalText}</p>
 
@@ -661,6 +653,27 @@ export function ChallengeGame({ locale }: { locale: Locale }) {
       </div>
     </section>
   ) : null;
+
+  const allPlayedPanel = (
+    <section
+      ref={resultRef}
+      className="challenge-result"
+      tabIndex={-1}
+      aria-label={t(locale, "challenge.resultAria")}
+    >
+      <h2>{t(locale, "challenge.allPlayedTitle")}</h2>
+      <p>{t(locale, "challenge.allPlayedText")}</p>
+
+      <div className="challenge-actions-row">
+        <button className="btn btn-primary" type="button" onClick={resetChallenge}>
+          {t(locale, "challenge.playAgain")}
+        </button>
+        <Link className="btn btn-ghost" href={localizePath(locale, "/")}>
+          {t(locale, "challenge.backHome")}
+        </Link>
+      </div>
+    </section>
+  );
 
   return (
     <div className="challenge">
@@ -736,17 +749,45 @@ export function ChallengeGame({ locale }: { locale: Locale }) {
           className={`challenge-play-overlay${
             stage === "lost" ? " is-lost" : ""
           }`}
-          role="dialog"
-          aria-modal="true"
+          role={isMobile ? "dialog" : undefined}
+          aria-modal={isMobile ? "true" : undefined}
           aria-label={t(
             locale,
             stage === "play" ? "challenge.boardLabel" : "challenge.resultAria",
           )}
         >
-          <div className="challenge-play-backdrop" aria-hidden="true" />
+          <div className="challenge-play-backdrop" aria-hidden="true" onClick={goToSelect} />
           <div className="challenge-play-modal">
+            <button
+              className="challenge-exit"
+              type="button"
+              onClick={goToSelect}
+              aria-label={t(locale, "challenge.exit")}
+              title={t(locale, "challenge.exit")}
+            >
+              ×
+            </button>
+            <div className="challenge-playing-head">
+              <p className="challenge-playing-deck">{deck.name[locale]}</p>
+              {stage === "play" ? (
+                <button
+                  className="btn btn-ghost"
+                  type="button"
+                  onClick={goToSelect}
+                >
+                  {t(locale, "challenge.changeDeck")}
+                </button>
+              ) : null}
+            </div>
             {stage === "play" ? (
               <>
+                <p className="challenge-instructions">
+                  {t(locale, "challenge.instructions")}
+                </p>
+                <p className="challenge-hint" id="challenge-hint">
+                  {t(locale, "challenge.dragHint")}{" "}
+                  {t(locale, "challenge.keyboardHint")}
+                </p>
                 <ol
                   ref={boardRef}
                   role="list"
@@ -811,11 +852,6 @@ export function ChallengeGame({ locale }: { locale: Locale }) {
                     );
                   })}
                 </ol>
-
-                <p className="sr-only" id="challenge-hint">
-                  {t(locale, "challenge.dragHint")}{" "}
-                  {t(locale, "challenge.keyboardHint")}
-                </p>
 
                 <div className="challenge-actions-row">
                   <button
@@ -945,6 +981,7 @@ export function ChallengeGame({ locale }: { locale: Locale }) {
       ) : null}
 
       {stage === "finished" ? finalPanel : null}
+      {stage === "allplayed" ? allPlayedPanel : null}
     </div>
   );
 }

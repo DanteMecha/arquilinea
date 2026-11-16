@@ -11,7 +11,7 @@ const es = {
   "meta.challenge.title":
     "Desafío — Ordená la historia y ganá un descuento — Arquilínea",
   "meta.challenge.description":
-    "Jugá el desafío digital de Arquilínea: elegí un mazo, ordená las cartas por año y ganá un 10% de descuento. Si jugás todos los mazos sin acertar, te llevás un 5%.",
+    "Jugá el desafío digital de Arquilínea: elegí un mazo, ordená las cartas por año y ganá un 10% de descuento.",
 
   "adbar.1": "48 cartas ilustradas",
   "adbar.2": "4 ediciones combinables",
@@ -174,10 +174,10 @@ const es = {
   "challenge.eyebrow": "Desafío digital",
   "challenge.title": "Ordená la historia. Ganá un descuento.",
   "challenge.sub":
-    "Elegí un mazo, ordená las cartas y comprobá el orden. Si acertás, te llevás un 10%; si no, probá otro mazo. Si jugás todos, te queda un 5% de consuelo.",
+    "Elegí un mazo, ordená las cartas y comprobá el orden. Si acertás, te llevás un 10%; si no, probá otro mazo.",
   "challenge.chooseDeck": "Elegí un mazo para empezar",
   "challenge.chooseDeckHint":
-    "Cada mazo se juega una sola vez. Si acertás el orden, ganás un 10%; si jugás todos y no acertás, te llevás un 5% de consuelo.",
+    "Cada mazo se juega una sola vez. Si acertás el orden, ganás un 10% de descuento.",
   "challenge.oneCode": "Un código por partida.",
   "challenge.cards": "{count} cartas",
   "challenge.played": "Jugado",
@@ -195,6 +195,7 @@ const es = {
   "challenge.loading": "Mezclando cartas…",
   "challenge.loadingSession": "Cargando desafío…",
   "challenge.changeDeck": "Cambiar de mazo",
+  "challenge.exit": "Salir del desafío",
   "challenge.lostTitle": "Este era el orden correcto",
   "challenge.lostText":
     "No acertaste esta vez. Elegí otro mazo para volver a intentar.",
@@ -204,9 +205,9 @@ const es = {
   "challenge.winTitle": "¡Línea correcta!",
   "challenge.winText":
     "Te ganaste un {percent}% de descuento para usar en mil trazos.",
-  "challenge.consolationTitle": "Completaste todos los mazos",
-  "challenge.consolationText":
-    "No lograste el orden, pero te llevás un {percent}% de descuento por haber jugado todos los mazos.",
+  "challenge.allPlayedTitle": "Completaste todos los mazos",
+  "challenge.allPlayedText":
+    "No acertaste el orden esta vez. Podés volver a intentarlo cuando quieras.",
   "challenge.yourCode": "Tu código",
   "challenge.copy": "Copiar código",
   "challenge.copied": "¡Copiado!",
@@ -226,7 +227,7 @@ const es = {
   "challenge.teaser.eyebrow": "Nuevo: desafío digital",
   "challenge.teaser.title": "Probá el juego y ganá un descuento.",
   "challenge.teaser.text":
-    "Elegí un mazo y ordená sus cartas en el tiempo. Si acertás, ganás un 10%; si jugás todos, un 5% de consuelo.",
+    "Elegí un mazo y ordená sus cartas en el tiempo. Si acertás, ganás un 10% de descuento.",
   "challenge.teaser.cta": "Jugar el desafío",
 
   "footer.stripAlt": "Arquilínea por el mundo",
@@ -262,7 +263,7 @@ const en = {
   "meta.challenge.title":
     "Challenge — Order history and win a discount — Arquilínea",
   "meta.challenge.description":
-    "Play the Arquilínea digital challenge: choose a deck, order the cards by year, and win 10% off. Play every deck without a match and you still get 5%.",
+    "Play the Arquilínea digital challenge: choose a deck, order the cards by year, and win 10% off.",
 
   "adbar.1": "48 illustrated cards",
   "adbar.2": "4 combinable editions",
@@ -426,10 +427,10 @@ const en = {
   "challenge.eyebrow": "Digital challenge",
   "challenge.title": "Order history. Win a discount.",
   "challenge.sub":
-    "Choose a deck, order the cards, and check your timeline. Get it right for 10%; if not, try another deck. Play them all and you still get 5%.",
+    "Choose a deck, order the cards, and check your timeline. Get it right for 10%; if not, try another deck.",
   "challenge.chooseDeck": "Choose a deck to start",
   "challenge.chooseDeckHint":
-    "Each deck can be played once. Get the order right for 10%; play every deck without a match and you still get 5%.",
+    "Each deck can be played once. Get the order right for a 10% discount.",
   "challenge.oneCode": "One code per game.",
   "challenge.cards": "{count} cards",
   "challenge.played": "Played",
@@ -447,6 +448,7 @@ const en = {
   "challenge.loading": "Shuffling cards…",
   "challenge.loadingSession": "Loading challenge…",
   "challenge.changeDeck": "Change deck",
+  "challenge.exit": "Exit challenge",
   "challenge.lostTitle": "This was the correct order",
   "challenge.lostText":
     "Not this time. Choose another deck and try again.",
@@ -456,9 +458,9 @@ const en = {
   "challenge.winTitle": "Correct timeline!",
   "challenge.winText":
     "You earned a {percent}% discount to use at mil trazos.",
-  "challenge.consolationTitle": "You played every deck",
-  "challenge.consolationText":
-    "No correct order this time, but you get a {percent}% discount for playing every deck.",
+  "challenge.allPlayedTitle": "You played every deck",
+  "challenge.allPlayedText":
+    "No correct order this time. You can try again whenever you want.",
   "challenge.yourCode": "Your code",
   "challenge.copy": "Copy code",
   "challenge.copied": "Copied!",
@@ -478,7 +480,7 @@ const en = {
   "challenge.teaser.eyebrow": "New: digital challenge",
   "challenge.teaser.title": "Try the game and win a discount.",
   "challenge.teaser.text":
-    "Choose a deck and order its cards through time. Get it right for 10%; play them all and you still get 5%.",
+    "Choose a deck and order its cards through time. Get it right for a 10% discount.",
   "challenge.teaser.cta": "Play the challenge",
 
   "footer.stripAlt": "Arquilínea around the world",

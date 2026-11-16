@@ -47,9 +47,9 @@ Sitio de Arquilínea, juego de cartas de arquitectura. Next.js 16 (App Router), 
 
 ## Desafío digital
 - Rutas `/desafio/` y `/en/desafio/`; teaser en la home. Textos en `challenge.*`.
-- Flujo: elegir mazo → ordenar las cartas por año de finalización → acierto 10%. Si falla, el mazo queda jugado y se elige otro; al jugar todos, 5% de consuelo. Un solo código por sesión.
+- Flujo: elegir mazo → ordenar las cartas por año de finalización → acierto 10%. Si falla, el mazo queda jugado y se elige otro; al jugar todos sin acierto no hay premio. Un solo código por sesión.
 - Persistencia: `localStorage` `arquilinea-desafio-session` (`playedDeckIds`, `finished`, `code`, `percent`, `kind`).
-- **Bloqueo:** los códigos actuales (`ARQ-10-TEST`, `ARQ-5-TEST`) son de prueba, visibles en el bundle y validados en el cliente. No hay canje real, unicidad ni control de uso hasta implementar tienda/backend. No publicarlos como descuento productivo.
+- **Bloqueo:** los códigos actuales (`ARQ-10-TEST`) son de prueba, visibles en el bundle y validados en el cliente. No hay canje real, unicidad ni control de uso hasta implementar tienda/backend. No publicarlos como descuento productivo.
 
 ## Próximas fases (no implementar sin pedido)
 - Tienda nativa: México primero (MXN, IVA 16%, OXXO/SPEI/tarjetas/MSI), Argentina después (ARS). Fulfillment por socio local y precios fijos por país, sin conversión automática.
