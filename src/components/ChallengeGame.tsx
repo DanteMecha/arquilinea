@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import {
@@ -186,8 +186,6 @@ export function ChallengeGame({ locale }: { locale: Locale }) {
     () => sortCardsByYear(deck?.cards ?? []),
     [deck],
   );
-  const isResultView = stage === "lost";
-  const resultCards = isResultView ? sortedCards : orderedCards;
   const remainingDecks = digitalDecks.filter(
     (item) => !playedDeckIds.includes(item.id),
   );
@@ -261,6 +259,18 @@ export function ChallengeGame({ locale }: { locale: Locale }) {
     if (stage === "play") {
       boardRef.current?.focus();
     }
+  }, [stage]);
+
+  useEffect(() => {
+    if (stage !== "play" && stage !== "lost") {
+      return;
+    }
+
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
   }, [stage]);
 
   function resetDragState() {
@@ -566,6 +576,26 @@ export function ChallengeGame({ locale }: { locale: Locale }) {
     setCopiedCode(code);
   }
 
+  function resetChallenge() {
+    if (typeof window !== "undefined") {
+      try {
+        window.localStorage.removeItem(STORAGE_KEY);
+      } catch {
+        // ignore storage errors
+      }
+    }
+
+    hasStartedRef.current = true;
+    setStage("select");
+    setSelectedDeckIndex(null);
+    setPlayedDeckIds([]);
+    setOrder([]);
+    setFinalResult(null);
+    setCopiedCode(null);
+    setAnnouncement("");
+    resetDragState();
+  }
+
   const finalText = finalResult
     ? t(
         locale,
@@ -622,6 +652,9 @@ export function ChallengeGame({ locale }: { locale: Locale }) {
         >
           {t(locale, "challenge.redeem")}
         </a>
+        <button className="btn btn-ghost" type="button" onClick={resetChallenge}>
+          {t(locale, "challenge.playAgain")}
+        </button>
         <Link className="btn btn-ghost" href={localizePath(locale, "/")}>
           {t(locale, "challenge.backHome")}
         </Link>
@@ -699,196 +732,216 @@ export function ChallengeGame({ locale }: { locale: Locale }) {
       ) : null}
 
       {deck && (stage === "play" || stage === "lost") ? (
-        <>
-          <div className="challenge-playing-head">
-            <p className="challenge-playing-deck">{deck.name[locale]}</p>
+        <div
+          className={`challenge-play-overlay${
+            stage === "lost" ? " is-lost" : ""
+          }`}
+          role="dialog"
+          aria-modal="true"
+          aria-label={t(
+            locale,
+            stage === "play" ? "challenge.boardLabel" : "challenge.resultAria",
+          )}
+        >
+          <div className="challenge-play-backdrop" aria-hidden="true" />
+          <div className="challenge-play-modal">
             {stage === "play" ? (
-              <button
-                className="btn btn-ghost"
-                type="button"
-                onClick={goToSelect}
-              >
-                {t(locale, "challenge.changeDeck")}
-              </button>
-            ) : null}
-          </div>
-
-          {stage === "play" ? (
-            <>
-              <p className="challenge-instructions">
-                {t(locale, "challenge.instructions")}
-              </p>
-              <p className="challenge-hint" id="challenge-hint">
-                {t(locale, "challenge.dragHint")}{" "}
-                {t(locale, "challenge.keyboardHint")}
-              </p>
-            </>
-          ) : null}
-
-          {stage === "lost" && !finalResult ? (
-            <>
-              <section
-                ref={lostRef}
-                className="challenge-lost"
-                tabIndex={-1}
-                aria-label={t(locale, "challenge.resultAria")}
-              >
-                <h2>{t(locale, "challenge.lostTitle")}</h2>
-                <p>{t(locale, "challenge.lostText")}</p>
-                <p className="challenge-remaining">
-                  {t(locale, "challenge.remaining").replace(
-                    "{count}",
-                    String(remainingDecks.length),
-                  )}
-                </p>
-              </section>
-
-              <div className="challenge-actions-row">
-                <button
-                  className="btn btn-primary"
-                  type="button"
-                  onClick={goToSelect}
+              <>
+                <ol
+                  ref={boardRef}
+                  role="list"
+                  tabIndex={-1}
+                  className="challenge-board"
+                  aria-label={t(locale, "challenge.boardLabel")}
                 >
-                  {t(locale, "challenge.chooseAnother")}
-                </button>
-              </div>
-            </>
-          ) : null}
+                  {orderedCards.map((card, index) => {
+                    const label = `${index + 1}. ${card.name[locale]}`;
 
-          {stage === "lost" && finalResult ? finalPanel : null}
+                    return (
+                      <li key={card.slug}>
+                        <button
+                          type="button"
+                          data-card-index={index}
+                          className={[
+                            "challenge-card",
+                            dragIndex === index ? "is-dragging" : "",
+                            overIndex === index ? "is-over" : "",
+                          ]
+                            .filter(Boolean)
+                            .join(" ")}
+                          tabIndex={0}
+                          aria-label={label}
+                          aria-roledescription={t(locale, "challenge.cardRole")}
+                          aria-describedby="challenge-hint"
+                          onPointerDown={(event) =>
+                            handlePointerDown(event, index)
+                          }
+                          onPointerMove={handlePointerMove}
+                          onPointerUp={handlePointerEnd}
+                          onPointerCancel={handlePointerEnd}
+                          onKeyDown={(event) => handleKeyDown(event, index)}
+                        >
+                          <span
+                            className="challenge-position"
+                            aria-hidden="true"
+                          >
+                            {index + 1}
+                          </span>
 
-          {stage === "lost" && finalResult ? (
-            <h2 className="challenge-order-title">
-              {t(locale, "challenge.orderTitle")}
-            </h2>
-          ) : null}
+                          <img
+                            className="challenge-image"
+                            src={card.front}
+                            alt=""
+                            width={630}
+                            height={630}
+                            draggable={false}
+                            loading="lazy"
+                          />
 
-          <ol
-            ref={boardRef}
-            role="list"
-            tabIndex={-1}
-            className={`challenge-board${stage === "lost" ? " is-result" : ""}`}
-            aria-label={t(
-              locale,
-              stage === "lost"
-                ? "challenge.orderTitle"
-                : "challenge.boardLabel",
-            )}
-          >
-            {resultCards.map((card, index) => {
-              const isCorrectPosition = order[index] === card.slug;
-              const label =
-                stage === "lost"
-                  ? `${t(
-                      locale,
-                      isCorrectPosition
-                        ? "challenge.correct"
-                        : "challenge.incorrect",
-                    )}: ${card.name[locale]} — ${t(
-                      locale,
-                      "challenge.yearLabel",
-                    )} ${card.yearLabel}`
-                  : `${index + 1}. ${card.name[locale]}`;
+                          <span
+                            className="challenge-grip"
+                            data-drag-handle
+                            title={t(locale, "challenge.dragHint")}
+                            aria-hidden="true"
+                          >
+                            <GripIcon />
+                          </span>
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ol>
 
-              return (
-                <li key={card.slug}>
+                <p className="sr-only" id="challenge-hint">
+                  {t(locale, "challenge.dragHint")}{" "}
+                  {t(locale, "challenge.keyboardHint")}
+                </p>
+
+                <div className="challenge-actions-row">
                   <button
+                    className="btn btn-primary"
                     type="button"
-                    data-card-index={index}
-                    className={[
-                      "challenge-card",
-                      dragIndex === index ? "is-dragging" : "",
-                      overIndex === index ? "is-over" : "",
-                      stage === "lost"
-                        ? isCorrectPosition
-                          ? "is-correct"
-                          : "is-incorrect"
-                        : "",
-                    ]
-                      .filter(Boolean)
-                      .join(" ")}
-                    tabIndex={stage === "play" ? 0 : -1}
-                    aria-label={label}
-                    aria-roledescription={
-                      stage === "play"
-                        ? t(locale, "challenge.cardRole")
-                        : undefined
-                    }
-                    aria-describedby={
-                      stage === "play" ? "challenge-hint" : undefined
-                    }
-                    onPointerDown={(event) => handlePointerDown(event, index)}
-                    onPointerMove={handlePointerMove}
-                    onPointerUp={handlePointerEnd}
-                    onPointerCancel={handlePointerEnd}
-                    onKeyDown={(event) => handleKeyDown(event, index)}
+                    onClick={checkOrder}
+                    disabled={order.length === 0}
                   >
-                    <span className="challenge-position" aria-hidden="true">
-                      {index + 1}
-                    </span>
-
-                    <img
-                      className="challenge-image"
-                      src={stage === "play" ? card.front : card.back}
-                      alt=""
-                      width={630}
-                      height={630}
-                      draggable={false}
-                      loading="lazy"
-                    />
-
-                    {stage === "play" ? (
-                      <span
-                        className="challenge-grip"
-                        data-drag-handle
-                        title={t(locale, "challenge.dragHint")}
-                        aria-hidden="true"
-                      >
-                        <GripIcon />
-                      </span>
-                    ) : null}
-
-                    {stage === "lost" ? (
-                      <span className="challenge-caption">
-                        <strong>{card.name[locale]}</strong>
-                        <span>{card.author[locale]}</span>
-                        <span>{card.place[locale]}</span>
-                        <span className="challenge-year">{card.yearLabel}</span>
-                      </span>
-                    ) : null}
-
-                    {stage === "lost" ? (
-                      <span className="challenge-mark" aria-hidden="true">
-                        {isCorrectPosition ? "✓" : "✕"}
-                      </span>
-                    ) : null}
+                    {t(locale, "challenge.check")}
                   </button>
-                </li>
-              );
-            })}
-          </ol>
+                  <button
+                    className="btn btn-ghost"
+                    type="button"
+                    onClick={shuffleCurrent}
+                    disabled={order.length === 0}
+                  >
+                    {t(locale, "challenge.shuffle")}
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                {finalResult ? (
+                  finalPanel
+                ) : (
+                  <>
+                    <section
+                      ref={lostRef}
+                      className="challenge-lost"
+                      tabIndex={-1}
+                      aria-label={t(locale, "challenge.resultAria")}
+                    >
+                      <h2>{t(locale, "challenge.lostTitle")}</h2>
+                      <p>{t(locale, "challenge.lostText")}</p>
+                      <p className="challenge-remaining">
+                        {t(locale, "challenge.remaining").replace(
+                          "{count}",
+                          String(remainingDecks.length),
+                        )}
+                      </p>
+                    </section>
 
-          {stage === "play" ? (
-            <div className="challenge-actions-row">
-              <button
-                className="btn btn-primary"
-                type="button"
-                onClick={checkOrder}
-                disabled={order.length === 0}
-              >
-                {t(locale, "challenge.check")}
-              </button>
-              <button
-                className="btn btn-ghost"
-                type="button"
-                onClick={shuffleCurrent}
-                disabled={order.length === 0}
-              >
-                {t(locale, "challenge.shuffle")}
-              </button>
-            </div>
-          ) : null}
-        </>
+                    <div className="challenge-actions-row">
+                      <button
+                        className="btn btn-primary"
+                        type="button"
+                        onClick={goToSelect}
+                      >
+                        {t(locale, "challenge.chooseAnother")}
+                      </button>
+                    </div>
+                  </>
+                )}
+
+                <h2 className="challenge-order-title">
+                  {t(locale, "challenge.orderTitle")}
+                </h2>
+
+                <ol
+                  role="list"
+                  className="challenge-board is-result"
+                  aria-label={t(locale, "challenge.orderTitle")}
+                >
+                  {sortedCards.map((card, index) => {
+                    const isCorrectPosition = order[index] === card.slug;
+
+                    return (
+                      <li key={card.slug}>
+                        <button
+                          type="button"
+                          data-card-index={index}
+                          className={[
+                            "challenge-card",
+                            isCorrectPosition ? "is-correct" : "is-incorrect",
+                          ]
+                            .filter(Boolean)
+                            .join(" ")}
+                          tabIndex={-1}
+                          aria-label={`${t(
+                            locale,
+                            isCorrectPosition
+                              ? "challenge.correct"
+                              : "challenge.incorrect",
+                          )}: ${card.name[locale]} — ${t(
+                            locale,
+                            "challenge.yearLabel",
+                          )} ${card.yearLabel}`}
+                        >
+                          <span
+                            className="challenge-position"
+                            aria-hidden="true"
+                          >
+                            {index + 1}
+                          </span>
+
+                          <img
+                            className="challenge-image"
+                            src={card.back}
+                            alt=""
+                            width={630}
+                            height={630}
+                            draggable={false}
+                            loading="lazy"
+                          />
+
+                          <span className="challenge-caption">
+                            <strong>{card.name[locale]}</strong>
+                            <span>{card.author[locale]}</span>
+                            <span>{card.place[locale]}</span>
+                            <span className="challenge-year">
+                              {card.yearLabel}
+                            </span>
+                          </span>
+
+                          <span className="challenge-mark" aria-hidden="true">
+                            {isCorrectPosition ? "✓" : "✗"}
+                          </span>
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ol>
+              </>
+            )}
+          </div>
+        </div>
       ) : null}
 
       {stage === "finished" ? finalPanel : null}

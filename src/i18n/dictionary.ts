@@ -27,6 +27,9 @@ const es = {
   "nav.links": "Enlaces",
   "nav.desafio": "Desafío",
   "nav.inicio": "Inicio",
+  "nav.menu.open": "Abrir menú",
+  "nav.menu.close": "Cerrar menú",
+  "nav.chooseLanguage": "Elegir idioma",
   "lang.aria": "Cambiar idioma / Switch language",
   "logo.aria": "Arquilínea — inicio",
 
@@ -209,7 +212,8 @@ const es = {
   "challenge.copied": "¡Copiado!",
   "challenge.redeem": "Comprar en mil trazos",
   "challenge.codeNote":
-    "Canjeá el código en mil trazos antes de finalizar la compra. Válido durante la campaña.",
+    "Presentá este código al finalizar tu compra en mil trazos.",
+  "challenge.playAgain": "Jugar de nuevo",
   "challenge.backHome": "Volver al inicio",
   "challenge.off": "de descuento",
   "challenge.yearLabel": "Año de finalización",
@@ -274,6 +278,9 @@ const en = {
   "nav.links": "Links",
   "nav.desafio": "Challenge",
   "nav.inicio": "Home",
+  "nav.menu.open": "Open menu",
+  "nav.menu.close": "Close menu",
+  "nav.chooseLanguage": "Choose language",
   "lang.aria": "Cambiar idioma / Switch language",
   "logo.aria": "Arquilínea — home",
 
@@ -458,6 +465,7 @@ const en = {
   "challenge.redeem": "Buy at mil trazos",
   "challenge.codeNote":
     "Redeem the code at mil trazos before checkout. Valid during the campaign.",
+  "challenge.playAgain": "Play again",
   "challenge.backHome": "Back to home",
   "challenge.off": "off",
   "challenge.yearLabel": "Completion year",

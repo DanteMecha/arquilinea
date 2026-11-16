@@ -7,6 +7,7 @@ import { ProductFooter } from "@/components/layout/Footer";
 import { EditionCard } from "@/components/EditionCard";
 import { Gallery } from "@/components/Gallery";
 import { ProductJsonLd } from "@/components/ProductJsonLd";
+import { ScrollToTop } from "@/components/ScrollToTop";
 
 export function ProductView({
   edition,
@@ -20,6 +21,7 @@ export function ProductView({
 
   return (
     <>
+      <ScrollToTop />
       <Adbar locale={locale} />
       <Nav locale={locale} variant="product" buyUrl={edition.buyUrl} />
 
@@ -92,13 +94,11 @@ export function ProductView({
         <section className="related">
           <div className="container">
             <h2>{t(locale, "product.related")}</h2>
-            <div className="grid">
+            <div className="related-slider">
               {related.map((item) => (
-                <EditionCard
-                  key={item.slug}
-                  edition={item}
-                  locale={locale}
-                />
+                <div className="related-slide" key={item.slug}>
+                  <EditionCard edition={item} locale={locale} />
+                </div>
               ))}
             </div>
           </div>
